@@ -1,0 +1,64 @@
+0.7
+unreleased
+
+0.6
+release 2020.07.02
+refactoring internal representations of ingredients, nutrient sets selections, recipes consumables, in line with long-term project aim to migrate all back-end data structures to javaFX observable beans and collections. (user experience when making changes to user data will change in step with such internal changes -- in particular, the user will notice a smoother and more robust experience when changing and updating values in text fields)
+added user setting to control representation (and labelling output) of decimal numbers -- effectively: whether the decimal separator should be a point or comma.
+user can specify local database file name; and entering a valid database filename in the settings instantly loads that database.
+search window now also returns results for matching FDC ID numbers. 
+
+0.5 
+released 2020.06.08
+added functionality to consumables: common user expectations for add/edit/delete etc (beginning internal migration to representation of database via javafx observable classes)
+recipes tab switches automatically to generator tab upon creation of a new batch.
+search window backend refactored: a background thread constructs map of nutrient sets while user searches ingredients, result is ingredient construction in main window is significantly faster.
+
+0.4 
+implemented Recipes; to streamline the production of nutritional tables with common ingredient combinations. Recipe sets are essentially collections of ingredients and amounts. 
+implemented Label Sets; which allow for greater user control of the ICML label text - further streamlining daily processes. The label set holds all required texts and data to quickly create the ICML output.
+tabs have been shuffled to reflect their priority, new tab for recipes. 
+FDC data search now supports multiple search keywords (returns narrower set of results).
+small bugfixes: misuse of value entry fields are more resilient; scattered code changes to smoothen user experience.
+
+0.3 
+implemented ability to export contents and nutritional information etc as one string in an ICML file, for direct use by InDesign. InDesign keeps track of a link to the file and will warn when it is out of date. Create the .icml from the app and place it to the InDesign project.
+changed underlying format for saving database information to file: from serialized data to google's protocol buffer. expect db files saved with previous versions up to 0.2 to stop working. reason for change: ingredient class must undergo significant changes to implement these version changes, which would easily the break serializing method of persistence, and result in loss of ability to read from serialized database files. protocol buffer provides the necessary resilience to this version's changes. 
+added 'customFlag' to ingredient type, so individual ingredients can be automatically included in 'common groupings' during contents string creation (e.g. flag multiple ingredients as 'selected seasonal fruit' so that only that text will display in the contents)    
+changed button names in database tab to improve intuitive user experience: "new" -> "search"; "clear -> new ID"
+added settings tab, empty for future development
+added custom application icon
+
+0.2
+costing tab made functional - introduced Consumables to assist with saving fields for each consumable item's price and usual 
+added 'cost per unit' field in nutritional tab
+ingredients are highlighted in the selections list if they have a zero cost
+FDC number is auto-filled when user clears ingredient fields, with the lowest available FDC ID
+
+0.1.5
+added field to display weight of an individual unit from the current batch of selections
+minor code tweaks where required to assist with ease-of-use / improve intuitive usage
+
+0.1
+nutrition and database tabs present (costing tab present but empty and non functional)
+ability to create list of selections with weights, to generate nutritional information
+ability to edit the main database for ingredients (loading and saving is automatic and user has no control over file name: 'oatboat.db')
+ability to search a local copy of the FDC foods database and transfer relevant ingredient data into local database 
+
+============
+
+future versions could/should/may include:
+
+full migration of relevant classes to Observable jFX models - i.e. ingredient, recipe, database.
+
+separation of tabs into manageable java classes - MainController class is currently severely bloated; almost all tasks operating in one object.
+
+better organisation of recipes tab and ability to more easily add/edit/delete recipes and associated values 
+
+change in utilisation of classes to support the notion of 'products', which are the combination of a recipe, label set and a selection of consumables
+
+connection to the real FDC server for users that have a unique login for that service (also eliminating need for local download and maintenance of FDC files of at least ~40MB)
+
+font choices for icml output
+
+and finally, complete removal of any specific references to oat boats or hardcoded strings. ohhh :{

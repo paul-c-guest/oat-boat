@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="480.0" maxWidth="750.0" minHeight="480.0" minWidth="750.0" prefHeight="480.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oatboat.view.MainController">
+   <center>
+      <TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="750.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="tabNutr" closable="false" onSelectionChanged="#nutrUpdateNutritionalFactsText" text="Generator">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" vgap="10.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.0" minWidth="230.0" prefWidth="230.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="240.0" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                           <children>
+                              <TableView fx:id="nutrIngredientsTable">
+                                 <columns>
+                                    <TableColumn fx:id="nutrIngredientsColumn" editable="false" maxWidth="230.0" minWidth="200.0" prefWidth="210.0" resizable="false" sortable="false" text="Available" />
+                                 </columns>
+                              </TableView>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                                 <children>
+                                    <CheckBox fx:id="nutrIncludePercentage" mnemonicParsing="false" text="\%">
+                                       <tooltip>
+                                          <Tooltip text="display the ingredient's weight percentage in labelling texts" />
+                                       </tooltip></CheckBox>
+                                    <TextField fx:id="nutrGramsTextField" alignment="CENTER" maxWidth="80.0" onAction="#nutrAddIngredientToSelections" promptText="grams" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="55.0" right="10.0" />
+                                       </HBox.margin>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </TextField>
+                                    <Button fx:id="nutrAddButton" minWidth="50.0" mnemonicParsing="false" onAction="#nutrAddIngredientToSelections" text="add" textAlignment="RIGHT" />
+                                 </children>
+                              </HBox>
+                              <TableView fx:id="nutrSelectionTable" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                                 <columns>
+                                    <TableColumn fx:id="nutrSelectionNameColumn" editable="false" maxWidth="200.0" prefWidth="155.0" sortable="false" text="Selection" />
+                                    <TableColumn fx:id="nutrSelectionWeightColumn" editable="false" maxWidth="75.0" minWidth="55.0" prefWidth="65.0" sortable="false" text="Weight" />
+                                 </columns>
+                              </TableView>
+                              <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <buttons>
+                                    <Button fx:id="nutrRemoveAllButton" disable="true" mnemonicParsing="false" onAction="#nutrRemoveAllIngredientsFromSelections" text="clear all" />
+                                    <Button fx:id="nutrRemoveButton" disable="true" mnemonicParsing="false" onMouseReleased="#nutrRemoveIngredientFromSelections" text="remove" />
+                                 </buttons>
+                              </ButtonBar>
+                              <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+                                 <children>
+                                    <Label text="Nutritional Facts per 100g">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextArea fx:id="nutrNutritionalFactsTextArea" editable="false" prefHeight="250.0" prefWidth="200.0" promptText="Add available ingredients with their amount in grams to construct a nutritional information table based on those selections. Specify a unit count to display further information. Export the result to the clipboard or to an InCopy ICML file." wrapText="true">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font size="12.0" />
+                                       </font>
+                                    </TextArea>
+                                    <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="250.0" text="unit count">
+                                       <graphic>
+                                          <TextField fx:id="nutrUnitCount" alignment="CENTER" maxWidth="-Infinity" onAction="#nutrUpdateNutritionalFactsText" prefWidth="60.0" promptText="--" />
+                                       </graphic>
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="250.0" text="cost per unit">
+                                       <graphic>
+                                          <TextField fx:id="nutrUnitCost" alignment="CENTER" editable="false" maxWidth="60.0" promptText="--" />
+                                       </graphic>
+                                       <padding>
+                                          <Insets top="10.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label fx:id="nutrAlertText" alignment="CENTER" contentDisplay="CENTER" prefWidth="230.0" text=" " textAlignment="CENTER" textFill="#c70000">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="System Italic" size="13.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </VBox>
+                              <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                <buttons>
+                                    <Button fx:id="nutrExportICML" disable="true" mnemonicParsing="false" onMouseReleased="#exportICML" text="to icml">
+                                       <tooltip>
+                                          <Tooltip text="select a label set in the recipes tab to enable ICML exporting" />
+                                       </tooltip></Button>
+                                  <Button fx:id="nutrCopy" mnemonicParsing="false" onMouseReleased="#nutrCopyToClipboard" text="to clipboard" />
+                                </buttons>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </ButtonBar>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+          </Tab>
+          <Tab fx:id="tabDB" closable="false" text="Database">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="600.0">
+                     <children>
+                        <GridPane hgap="10.0" prefHeight="450.0" vgap="10.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.0" minWidth="230.0" prefWidth="230.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="490.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                           <children>
+                              <ButtonBar prefHeight="40.0" prefWidth="181.0" GridPane.rowIndex="1">
+                                 <buttons>
+                                    <Button fx:id="dbButtonDelete" disable="true" mnemonicParsing="false" onMouseReleased="#dbDeleteIngredient" text="delete" />
+                                    <Button fx:id="dbButtonAdd" mnemonicParsing="false" onAction="#dbLaunchSearchWindow" text="search..." />
+                                 </buttons>
+                              </ButtonBar>
+                              <TableView fx:id="dbIngredientsTable">
+                                 <columns>
+                                    <TableColumn fx:id="dbIngredientsColumn" editable="false" maxWidth="-1.0" minWidth="210.0" prefWidth="-1.0" resizable="false" text="Ingredients" />
+                                 </columns>
+                              </TableView>
+                              <GridPane alignment="TOP_CENTER" hgap="10.0" maxHeight="1.7976931348623157E308" vgap="10.0" AnchorPane.topAnchor="0.0" GridPane.columnIndex="1">
+                                <columnConstraints>
+                                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="70.0" />
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="30.0" />
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="70.0" />
+                                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="70.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Title">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2">
+                                       <children>
+                                          <Label fx:id="dbIDtextLabel" />
+                                          <Label fx:id="dbIDnumberLabel" />
+                                       </children>
+                                    </HBox>
+                                    <TextField fx:id="dbNameText" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                                    <Label text="Label Text" GridPane.rowIndex="1" />
+                                    <TextField fx:id="dbLabelTextText" prefHeight="26.0" prefWidth="101.0" promptText="text here will be exported to label texts" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+                                       <tooltip>
+                                          <Tooltip fx:id="dbLabelTextTooltip" opacity="0.9" />
+                                       </tooltip></TextField>
+                                    <Label text="Energy (kJ)" GridPane.rowIndex="2" />
+                                    <TextField fx:id="dbEnergyKJText" alignment="CENTER" maxWidth="80.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+                                    <Label text="Energy (kcal)" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                                    <TextField fx:id="dbEnergyKCalText" alignment="CENTER" maxWidth="80.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                    <Label text="Fat" GridPane.rowIndex="3" />
+                                    <TextField fx:id="dbFatsText" alignment="CENTER" maxWidth="80.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="Saturates" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                    <TextField fx:id="dbSaturatesText" alignment="CENTER" maxWidth="80.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                                    <Label text="Carbohydrates" GridPane.rowIndex="4" />
+                                    <TextField fx:id="dbCarbohydratesText" alignment="CENTER" maxWidth="80.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="Sugars" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                    <TextField fx:id="dbSugarsText" alignment="CENTER" maxWidth="80.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                                    <Label text="Protein" GridPane.rowIndex="5" />
+                                    <TextField fx:id="dbProteinText" alignment="CENTER" maxWidth="80.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label text="Salt" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                                    <TextField fx:id="dbSaltText" alignment="CENTER" maxWidth="80.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                                    <CheckBox fx:id="dbGrouping0CheckBox" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+                                    <Label fx:id="dbGrouping0Description" text="Do not include in contents list" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="6" />
+                                    <CheckBox fx:id="dbGrouping1CheckBox" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.rowIndex="7" />
+                                    <Label fx:id="dbGrouping1Description" text="(grouping not assigned, check settings)" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="7" />
+                                    <Label text="price per kilo" GridPane.rowIndex="8" />
+                                    <TextField fx:id="dbCostPerKiloText" alignment="CENTER" maxWidth="80.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                    <Label text="other details" GridPane.rowIndex="9" />
+                                    <TextField fx:id="dbDescText" prefHeight="26.0" prefWidth="101.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="9" />
+                                 </children>
+                              </GridPane>
+                              <ButtonBar buttonMinWidth="50.0" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <buttons>
+                                    <Button fx:id="dbButtonClear" minWidth="130.0" mnemonicParsing="false" onMouseReleased="#clearDBTextFields" prefWidth="130.0" text="new ingredient" />
+                                    <Button fx:id="dbButtonSave" disable="true" maxWidth="60.0" mnemonicParsing="false" onMouseReleased="#dbSaveIngredient" text="save" />
+                                 </buttons>
+                              </ButtonBar>
+                           </children>
+                        </GridPane>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="tabRcp" text="Recipes">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane hgap="10.0" prefHeight="450.0" vgap="10.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="350.0" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" />
+                          </rowConstraints>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <ComboBox fx:id="rcpSelectionCombo" prefWidth="230.0" promptText="Choose a Recipe...">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </ComboBox>
+                                    <Button fx:id="rcpNewRecipeButton" disable="true" mnemonicParsing="false" onAction="#rcpGetRecipeFromSelections" text="new recipe from generator...">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <TableView fx:id="rcpSelectionsTable" minHeight="150.0" prefWidth="230.0">
+                                      <columns>
+                                        <TableColumn fx:id="rcpIngredientColumn" editable="false" prefWidth="192.0" sortable="false" text="Ingredient" />
+                                        <TableColumn fx:id="rcpRatioColumn" editable="false" prefWidth="63.0" text="Ratio" />
+                                          <TableColumn fx:id="rcpAmountColumn" prefWidth="75.0" resizable="false" sortable="false" text="Weight" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                              <GridPane hgap="10.0" vgap="10.0" GridPane.columnIndex="1">
+                                <columnConstraints>
+                                  <ColumnConstraints halignment="CENTER" minWidth="370.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label fx:id="rcpKeystoneTitleLabel" text="Keystone ingredient: etc">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox alignment="CENTER_RIGHT" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                                       <children>
+                                          <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Generate nutrition table for a batch of:">
+                                             <graphic>
+                                                <TextField fx:id="rcpBatchCountField" alignment="CENTER" maxWidth="-Infinity" onAction="#rcpSetNutrSelectionsFromSelectedRecipe" prefWidth="50.0" promptText="unit" text="1" />
+                                             </graphic>
+                                          </Label>
+                                          <Button fx:id="rcpGenerateFromRecipeButton" alignment="CENTER" disable="true" mnemonicParsing="false" onAction="#rcpSetNutrSelectionsFromSelectedRecipe" prefWidth="50.0" text="Go">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <Label contentDisplay="RIGHT" text="Selection" GridPane.rowIndex="1">
+                                       <graphic>
+                                          <TextField fx:id="rcpSelectedIngNameField" editable="false" prefWidth="200.0" />
+                                       </graphic>
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <GridPane hgap="10.0" vgap="10.0" GridPane.rowIndex="2">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="130.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label alignment="CENTER" contentDisplay="RIGHT" text="Ratio" GridPane.halignment="RIGHT">
+                                             <graphic>
+                                                <Spinner fx:id="rcpSelectedIngRatioSpinner" editable="true" prefWidth="120.0" />
+                                             </graphic>
+                                          </Label>
+                                          <Label text="Amount" GridPane.columnIndex="1">
+                                             <graphic>
+                                                <TextField fx:id="rcpSelectedIngAmountField" alignment="CENTER" onAction="#rcpSetRatioSpinnerNewValue" prefWidth="100.0" />
+                                             </graphic>
+                                          </Label>
+                                          <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="days to add" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                                             <graphic>
+                                                <Spinner fx:id="rcpExpiryDateSpinner" prefWidth="75.0" />
+                                             </graphic>
+                                          </Label>
+                                          <Label fx:id="rcpExpiryDateLabel" text="&gt;&gt; DD-MM-YYYY" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                                          <ButtonBar buttonMinWidth="0.0" prefHeight="40.0" prefWidth="70.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                            <buttons>
+                                                <ComboBox fx:id="rcpLabelSetComboBox" promptText="Choose a Label Set..." />
+                                              <Button fx:id="rcpEditLabelSetsButton" alignment="CENTER" maxWidth="100.0" mnemonicParsing="false" onAction="#rcpLaunchLabelSetEditor" text="edit sets..." />
+                                            </buttons>
+                                             <GridPane.margin>
+                                                <Insets right="30.0" />
+                                             </GridPane.margin>
+                                          </ButtonBar>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                              </GridPane>
+                              <ButtonBar buttonMinWidth="140.0" prefHeight="40.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                <buttons>
+                                    <Button fx:id="rcpDeleteSelectionButton" alignment="CENTER" mnemonicParsing="false" onAction="#rcpDeleteSelectedIngredient" text="delete selection" />
+                                    <Button fx:id="rcpUpdateSelectionButton" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#rcpUpdateSelection" text="update selection" />
+                                    <Button fx:id="rcpDeleteRecipeButton" mnemonicParsing="false" onAction="#rcpDeleteRecipe" text="delete recipe" />
+                                  <Button fx:id="rcpSaveRecipeButton" mnemonicParsing="false" onAction="#rcpSaveRecipeChanges" text="save recipe" />
+                                </buttons>
+                              </ButtonBar>
+                           </children>
+                        </GridPane>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="tabCost" closable="false" text="Consumables">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <GridPane hgap="10.0" prefHeight="450.0" prefWidth="750.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.0" minWidth="230.0" prefWidth="230.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <TableView fx:id="costConsumableTableView" prefHeight="230.0" prefWidth="230.0">
+                                <columns>
+                                  <TableColumn fx:id="costConsumableItemTableColumn" maxWidth="-1.0" minWidth="228.0" prefWidth="-1.0" resizable="false" text="Consumable" />
+                                </columns>
+                              </TableView>
+                              <GridPane alignment="CENTER" hgap="10.0" maxHeight="150.0" maxWidth="400.0" vgap="10.0" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="RIGHT" text="total consumables cost per unit:" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+                                       <graphic>
+                                          <TextField fx:id="costTotalUnitCost" alignment="CENTER" editable="false" prefWidth="70.0" />
+                                       </graphic>
+                                    </Label>
+                                    <Label contentDisplay="RIGHT" text="Item Name" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT">
+                                       <graphic>
+                                          <TextField fx:id="costItemNameTextField" prefWidth="200.0" />
+                                       </graphic>
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <Label contentDisplay="RIGHT" text="Cost per Order" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                                       <graphic>
+                                          <TextField fx:id="costSampleCostTextField" alignment="CENTER" prefWidth="70.0" />
+                                       </graphic>
+                                    </Label>
+                                    <Label contentDisplay="RIGHT" text="Units per Order" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                                       <graphic>
+                                          <TextField fx:id="costSampleSizeTextField" alignment="CENTER" prefWidth="70.0" />
+                                       </graphic>
+                                    </Label>
+                                    <Label contentDisplay="RIGHT" text="Additional Info" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                                       <graphic>
+                                          <TextField fx:id="costItemDescriptionTextField" prefWidth="200.0" />
+                                       </graphic>
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Line endX="300.0" stroke="#00000040" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                                 </children>
+                              </GridPane>
+                              <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                <buttons>
+                                  <Button mnemonicParsing="false" onAction="#costDeleteConsumable" text="delete" />
+                                    <Button mnemonicParsing="false" onAction="#costAddConsumable" text="add" />
+                                </buttons>
+                              </ButtonBar>
+                              <Button minWidth="85.0" mnemonicParsing="false" onAction="#costClearTextFields" text="clear" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabSettings" text="Settings">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label contentDisplay="RIGHT" layoutX="14.0" layoutY="70.0" text="Content Grouping Description: ">
+                           <graphic>
+                              <TextField fx:id="settingGrouping1Description" onAction="#settingUpdateGroupings" promptText="simple description" />
+                           </graphic>
+                        </Label>
+                        <TextField fx:id="settingGrouping1DisplayText" layoutX="14.0" layoutY="108.0" onAction="#settingUpdateGroupings" prefHeight="26.0" prefWidth="373.0" promptText="text to display on labelling for this grouping" />
+                        <Label contentDisplay="RIGHT" layoutX="14.0" layoutY="158.0" prefHeight="26.0" prefWidth="300.0" text="Database filename: ">
+                           <graphic>
+                              <TextField fx:id="settingFilename" onAction="#settingSetDatabaseFilename" prefHeight="26.0" prefWidth="150.0" promptText="default.db" />
+                           </graphic>
+                        </Label>
+                        <Button fx:id="settingTesting" layoutX="286.0" layoutY="272.0" mnemonicParsing="false" onAction="#settingsRandomTestingButton" text="testing" />
+                        <CheckBox disable="true" layoutX="185.0" layoutY="224.0" mnemonicParsing="false" text="indicate unpriced selections in generator" />
+                        <ComboBox fx:id="settingDecimalFormatComboBox" layoutX="551.0" layoutY="171.0" prefWidth="135.0" promptText="choose..." />
+                        <Label layoutX="557.0" layoutY="146.0" text="decimal separator" />
+                        <ToggleButton fx:id="settingFilenameTextLock" layoutX="314.0" layoutY="158.0" mnemonicParsing="false" prefWidth="45.0" selected="true" text="edit" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>

@@ -1,0 +1,117 @@
+// in terminal, execute "./protoc --java_out=. IngredientDatabase.proto"
+
+// reminder: proto3 syntax has removed use of 'required' and 'optional' tags for fields
+syntax = "proto3";
+
+// 'package' is specified in a protobuffer for cross-language use - not currently relevant
+package ingredients_database;
+
+// package and outer classname relevant here, thus should match application's package layout
+option java_package = "oatboat.model.database.protobuf";
+option java_outer_classname = "ProtoDB";
+
+/** the Protocol Buffer representation of the oatboat Ingredient java object. <p> customFlag1 is included here with the intention to use such flags to aid in the construction of strings of ingredients in the app; e.g. so that a 'fruit' can count toward a mention of 'seasonal mixed fruit' rather than each fruit being listed unneccessarily. */
+message ProtoIngredient {
+	string name = 1; // effectively a 'required' field 
+	string id = 2; // effectively a 'required' field
+	string descEN = 3;
+	string descCZ = 4;
+	double costPerKilo = 5;
+
+	message Flags {
+		repeated bool flag = 1;
+	}
+
+	Flags groupingFlags = 6;
+	// 7 is taken
+
+// an Ingredient always contains an internal NutrientSet object containing the seven legally required nutritional elements (energy is provided in two metrics). fibre is not required on labelling and commented here for future inspiration
+	message ProtoNutrientSet {
+		double energyKj = 1;
+		double energyCal = 2;
+		double carbs = 3;
+		double sugars = 4;
+		double fats = 5;
+		double saturates = 6;
+		double protein = 7;
+		double salt = 8;
+		double fibre = 9;
+	}
+
+	ProtoNutrientSet nutrients = 7;
+}
+
+// protobuf representation of the Consumable java object
+message ProtoConsumable {
+	string name = 1;
+	double sampleCost = 2;
+	int32 sampleSize = 3;
+	string description = 4;
+}
+
+// proto representation of a common ingredient grouping, used in the app to contract many ingredients under a single common description for labelling purposes.
+message ProtoGrouping {
+	int32 index = 1;
+	string description = 2;
+	string displayText = 3;
+}
+
+// stripped out representation of a Selection.class; just enough to reconstruct in the application
+message ProtoSelection {
+	string FDCID = 1; // the fdcid is sufficient to retrieve the whole ingredient
+	double multiplier = 2; // ratio of keystone ingredient to add
+	bool appendPercentage = 3; // required for correct label output
+}
+
+// a label set, which is utilised by recipes to streamline output for printing/display purposes
+message ProtoLabelSet {
+	string setName = 1;
+	string mainTitle = 2;
+	string subTitle = 3;
+	string contentsPrefix = 4;
+	string nutritionPrefix = 5;
+	string additionalInfo = 6;
+	int32 daysToExpiry = 7;
+	bool clientSuppliedWeight = 8;
+	int32 unitWeight = 9;
+}
+
+message ProtoRecipe {
+	string title = 1;
+	ProtoSelection keystone = 2; // a selection to base all ratio calculations upon
+
+	message ProtoSelectionSet {
+		repeated ProtoSelection selectionSet = 1;
+	}
+	ProtoSelectionSet selections = 3; 
+	string labelSetName = 4;
+}
+
+message IngredientDatabase {
+	repeated ProtoIngredient ingredients = 1;
+}
+
+message ConsumableDatabase {
+	repeated ProtoConsumable consumables = 1;
+}
+
+message GroupingDatabase {
+	repeated ProtoGrouping groupings = 1;
+}
+
+message RecipeDatabase {
+	repeated ProtoRecipe recipes = 1;
+}
+
+message LabelSetDatabase {
+	repeated ProtoLabelSet labelSets = 1;
+}
+
+message ProtoDatabase {
+	IngredientDatabase protoIngredients = 1;
+	ConsumableDatabase protoConsumables = 2;
+	GroupingDatabase protoGroupings = 3;
+	RecipeDatabase protoRecipes = 4;
+	LabelSetDatabase protoLabelSets = 5;
+}
+
